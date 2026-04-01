@@ -25,10 +25,12 @@ class SmhiWeatherBaseEntity(Entity):
         longitude: str,
     ) -> None:
         """Initialize the SMHI base weather entity."""
-        self._attr_unique_id = f"{latitude}, {longitude}"
+        lat = round(float(latitude), 6)
+        lon = round(float(longitude), 6)
+        self._attr_unique_id = f"{lat}, {lon}"
         self._attr_device_info = DeviceInfo(
             entry_type=DeviceEntryType.SERVICE,
-            identifiers={(DOMAIN, f"{latitude}, {longitude}")},
+            identifiers={(DOMAIN, f"{lat}, {lon}")},
             manufacturer="SMHI",
             model="snow1g/v1",
             configuration_url="https://opendata.smhi.se/metfcst/snow1gv1/introduction",

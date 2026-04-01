@@ -312,7 +312,9 @@ class SMHIWeatherSensor(SmhiWeatherEntity, SensorEntity):
             longitude,
             coordinator,
         )
-        self._attr_unique_id = f"{latitude}, {longitude}-{entity_description.key}"
+        lat = round(float(latitude), 6)
+        lon = round(float(longitude), 6)
+        self._attr_unique_id = f"{lat}, {lon}-{entity_description.key}"
 
     def update_entity_data(self) -> None:
         """Refresh the entity data."""
@@ -339,7 +341,9 @@ class SMHIFireSensor(SmhiFireEntity, SensorEntity):
             longitude,
             coordinator,
         )
-        self._attr_unique_id = f"{latitude}, {longitude}-{entity_description.key}"
+        lat = round(float(latitude), 6)
+        lon = round(float(longitude), 6)
+        self._attr_unique_id = f"{lat}, {lon}-{entity_description.key}"
 
     def update_entity_data(self) -> None:
         """Refresh the entity data."""
