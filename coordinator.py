@@ -129,18 +129,17 @@ class SMHIDataUpdateCoordinator(DataUpdateCoordinator[SMHIAllData]):
         self._session = aiohttp_client.async_get_clientsession(hass)
 
     async def _async_update_data(self) -> SMHIAllData:
-        """Fetch data from SMHI."""
-        try:
-            async with asyncio.timeout(TIMEOUT):
-                weather_raw, fire_daily_raw, fire_hourly_raw = await asyncio.gather(
-                    _fetch_json(self._session, self._weather_url),
-                    _fetch_json(self._session, self._fire_daily_url),
-                    _fetch_json(self._session, self._fire_hourly_url),
-                )
-        except (aiohttp.ClientError, TimeoutError) as ex:
-            raise UpdateFailed(
-                "Failed to retrieve the forecast from the SMHI API"
-            ) from ex
+        """Fetch data from SMHI.
+
+        Note: asyncio.TimeoutError and aiohttp.ClientError are already
+        handled by the DataUpdateCoordinator.
+        """
+        async with asyncio.timeout(TIMEOUT):
+            weather_raw, fire_daily_raw, fire_hourly_raw = await asyncio.gather(
+                _fetch_json(self._session, self._weather_url),
+                _fetch_json(self._session, self._fire_daily_url),
+                _fetch_json(self._session, self._fire_hourly_url),
+            )
 
         hourly = _parse_weather_timeseries(weather_raw)
         return SMHIAllData(

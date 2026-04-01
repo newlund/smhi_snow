@@ -18,8 +18,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: SMHIConfigEntry) -> bool
     """Set up SMHI forecast as config entry."""
 
     if entry.unique_id is None:
-        unique_id = f"{entry.data[CONF_LOCATION][CONF_LATITUDE]}-{entry.data[CONF_LOCATION][CONF_LONGITUDE]}"
-        hass.config_entries.async_update_entry(entry, unique_id=unique_id)
+        lat = round(float(entry.data[CONF_LOCATION][CONF_LATITUDE]), 6)
+        lon = round(float(entry.data[CONF_LOCATION][CONF_LONGITUDE]), 6)
+        hass.config_entries.async_update_entry(entry, unique_id=f"{lat}-{lon}")
 
     coordinator = SMHIDataUpdateCoordinator(hass, entry)
     await coordinator.async_config_entry_first_refresh()

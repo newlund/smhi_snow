@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 from typing import Any
 
 import aiohttp
@@ -18,7 +19,7 @@ from homeassistant.helpers import (
 )
 from homeassistant.helpers.selector import LocationSelector
 
-from .const import DEFAULT_NAME, DOMAIN, HOME_LOCATION_NAME
+from .const import DEFAULT_NAME, DOMAIN, HOME_LOCATION_NAME, TIMEOUT
 from .coordinator import WEATHER_BASE_URL
 
 
@@ -29,9 +30,10 @@ async def async_check_location(
     session = aiohttp_client.async_get_clientsession(hass)
     url = f"{WEATHER_BASE_URL}/geotype/point/lon/{round(longitude, 6)}/lat/{round(latitude, 6)}/data.json"
     try:
-        async with session.get(url) as resp:
-            return resp.status == 200
-    except aiohttp.ClientError:
+        async with asyncio.timeout(TIMEOUT):
+            async with session.get(url) as resp:
+                return resp.status == 200
+    except (aiohttp.ClientError, TimeoutError):
         return False
 
 
@@ -58,7 +60,9 @@ class SmhiFlowHandler(ConfigFlow, domain=DOMAIN):
                 ):
                     name = HOME_LOCATION_NAME
 
-                await self.async_set_unique_id(f"{lat}-{lon}")
+                await self.async_set_unique_id(
+                    f"{round(lat, 6)}-{round(lon, 6)}"
+                )
                 self._abort_if_unique_id_configured()
                 return self.async_create_entry(title=name, data=user_input)
 
@@ -87,7 +91,7 @@ class SmhiFlowHandler(ConfigFlow, domain=DOMAIN):
             lat: float = user_input[CONF_LOCATION][CONF_LATITUDE]
             lon: float = user_input[CONF_LOCATION][CONF_LONGITUDE]
             if await async_check_location(self.hass, lon, lat):
-                unique_id = f"{lat}-{lon}"
+                unique_id = f"{round(lat, 6)}-{round(lon, 6)}"
                 await self.async_set_unique_id(unique_id)
                 self._abort_if_unique_id_configured()
 
