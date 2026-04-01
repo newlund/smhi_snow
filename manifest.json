@@ -1,6 +1,6 @@
 {
-  "domain": "smhi",
-  "name": "SMHI",
+  "domain": "smhi_snow",
+  "name": "SMHI Snow",
   "codeowners": ["@gjohansson-ST"],
   "config_flow": true,
   "documentation": "https://www.home-assistant.io/integrations/smhi",

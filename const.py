@@ -8,12 +8,12 @@ from homeassistant.components.weather import DOMAIN as WEATHER_DOMAIN
 
 ATTR_SMHI_THUNDER_PROBABILITY: Final = "thunder_probability"
 
-DOMAIN = "smhi"
+DOMAIN = "smhi_snow"
 
 HOME_LOCATION_NAME = "Home"
 DEFAULT_NAME = "Weather"
 
-ENTITY_ID_SENSOR_FORMAT = WEATHER_DOMAIN + ".smhi_{}"
+ENTITY_ID_SENSOR_FORMAT = WEATHER_DOMAIN + ".smhi_snow_{}"
 
 LOGGER = logging.getLogger(__package__)
 
