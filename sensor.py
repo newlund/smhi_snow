@@ -17,6 +17,8 @@ from homeassistant.const import (
     CONF_LOCATION,
     CONF_LONGITUDE,
     PERCENTAGE,
+    UnitOfLength,
+    UnitOfPrecipitationDepth,
     UnitOfSpeed,
 )
 from homeassistant.core import HomeAssistant
@@ -66,6 +68,13 @@ def _frozen_precip(value: float | None) -> int | None:
     if value is None or value < 0:
         return None
     return round(value * 100)
+
+
+def _cloud_altitude(value: float | None) -> float | None:
+    """Return cloud altitude, treating 9999 (missing value) as None."""
+    if value is None or value >= 9999:
+        return None
+    return value
 
 
 def _fire_index(entity: SMHISensor, key: str) -> str:
@@ -146,6 +155,72 @@ WEATHER_SENSOR_DESCRIPTIONS: tuple[SMHISensorDescription, ...] = (
             e.coordinator.current.get("precipitation_frozen_part")
         ),
         native_unit_of_measurement=PERCENTAGE,
+    ),
+    SMHISensorDescription(
+        key="probability_of_precipitation",
+        translation_key="probability_of_precipitation",
+        value_fn=lambda e: e.coordinator.current.get("probability_of_precipitation"),
+        native_unit_of_measurement=PERCENTAGE,
+    ),
+    SMHISensorDescription(
+        key="precipitation_mean",
+        translation_key="precipitation_mean",
+        value_fn=lambda e: e.coordinator.current.get("precipitation_amount_mean"),
+        device_class=SensorDeviceClass.PRECIPITATION,
+        state_class=SensorStateClass.MEASUREMENT,
+        native_unit_of_measurement=UnitOfPrecipitationDepth.MILLIMETERS,
+    ),
+    SMHISensorDescription(
+        key="precipitation_min",
+        translation_key="precipitation_min",
+        value_fn=lambda e: e.coordinator.current.get("precipitation_amount_min"),
+        device_class=SensorDeviceClass.PRECIPITATION,
+        state_class=SensorStateClass.MEASUREMENT,
+        native_unit_of_measurement=UnitOfPrecipitationDepth.MILLIMETERS,
+    ),
+    SMHISensorDescription(
+        key="precipitation_max",
+        translation_key="precipitation_max",
+        value_fn=lambda e: e.coordinator.current.get("precipitation_amount_max"),
+        device_class=SensorDeviceClass.PRECIPITATION,
+        state_class=SensorStateClass.MEASUREMENT,
+        native_unit_of_measurement=UnitOfPrecipitationDepth.MILLIMETERS,
+    ),
+    SMHISensorDescription(
+        key="precipitation_median",
+        translation_key="precipitation_median",
+        value_fn=lambda e: e.coordinator.current.get("precipitation_amount_median"),
+        device_class=SensorDeviceClass.PRECIPITATION,
+        state_class=SensorStateClass.MEASUREMENT,
+        native_unit_of_measurement=UnitOfPrecipitationDepth.MILLIMETERS,
+    ),
+    SMHISensorDescription(
+        key="visibility",
+        translation_key="visibility",
+        value_fn=lambda e: e.coordinator.current.get("visibility_in_air"),
+        device_class=SensorDeviceClass.DISTANCE,
+        state_class=SensorStateClass.MEASUREMENT,
+        native_unit_of_measurement=UnitOfLength.KILOMETERS,
+    ),
+    SMHISensorDescription(
+        key="cloud_base",
+        translation_key="cloud_base",
+        value_fn=lambda e: _cloud_altitude(
+            e.coordinator.current.get("cloud_base_altitude")
+        ),
+        device_class=SensorDeviceClass.DISTANCE,
+        state_class=SensorStateClass.MEASUREMENT,
+        native_unit_of_measurement=UnitOfLength.METERS,
+    ),
+    SMHISensorDescription(
+        key="cloud_top",
+        translation_key="cloud_top",
+        value_fn=lambda e: _cloud_altitude(
+            e.coordinator.current.get("cloud_top_altitude")
+        ),
+        device_class=SensorDeviceClass.DISTANCE,
+        state_class=SensorStateClass.MEASUREMENT,
+        native_unit_of_measurement=UnitOfLength.METERS,
     ),
 )
 

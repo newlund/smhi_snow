@@ -26,7 +26,12 @@
   },
   "entity": {
     "sensor": {
-      "build_up_index": {
+      "cloud_base": {
+        "name": "Molnbashöjd"
+      },
+      "cloud_top": {
+        "name": "Molntopphöjd"
+      },
         "name": "Uppbyggnadsindex"
       },
       "drought_code": {
@@ -104,7 +109,24 @@
           "6": "Underkylt duggregn"
         }
       },
-      "rate_of_spread": {
+      "precipitation_max": {
+        "name": "Nederbörd max"
+      },
+      "precipitation_mean": {
+        "name": "Nederbörd medel"
+      },
+      "precipitation_median": {
+        "name": "Nederbörd median"
+      },
+      "precipitation_min": {
+        "name": "Nederbörd min"
+      },
+      "probability_of_precipitation": {
+        "name": "Nederbördssannolikhet"
+      },
+      "visibility": {
+        "name": "Sikt"
+      },
         "name": "Potentiell spridningshastighet"
       },
       "thunder": {
