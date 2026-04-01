@@ -67,10 +67,10 @@ def _octas_to_pct(value: float | None) -> int | None:
 
 
 def _frozen_precip(value: float | None) -> int | None:
-    """Convert frozen precipitation fraction to percentage."""
+    """Return frozen precipitation percentage, filtering SMHI missing-data sentinel."""
     if value is None or value < 0:
         return None
-    return round(value * 100)
+    return round(value)
 
 
 def _cloud_altitude(value: float | None) -> float | None:
