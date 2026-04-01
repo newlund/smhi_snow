@@ -1,4 +1,4 @@
-# SMHI Weather - Home Assistant Custom Component
+# SMHI Snow - Home Assistant Custom Component
 
 A Home Assistant integration for [SMHI](https://www.smhi.se/) (Swedish Meteorological and Hydrological Institute) weather data using their open data API.
 
@@ -10,11 +10,11 @@ A Home Assistant integration for [SMHI](https://www.smhi.se/) (Swedish Meteorolo
 
 ## Installation
 
-Copy the `smhi` folder to your Home Assistant `custom_components` directory:
+Copy the `smhi_snow` folder to your Home Assistant `custom_components` directory:
 
 ```
 custom_components/
-└── smhi/
+└── smhi_snow/
     ├── __init__.py
     ├── config_flow.py
     ├── const.py
@@ -27,7 +27,7 @@ custom_components/
     └── weather.py
 ```
 
-Restart Home Assistant, then add the integration via Settings → Devices & Services → Add Integration → SMHI.
+Restart Home Assistant, then add the integration via Settings → Devices & Services → Add Integration → SMHI Snow.
 
 ## API
 
