@@ -35,7 +35,7 @@ class SmhiWeatherBaseEntity(Entity):
             model="snow1g/v1",
             configuration_url="https://opendata.smhi.se/metfcst/snow1gv1/introduction",
         )
-        self.update_entity_data()
+        )
 
     @abstractmethod
     def update_entity_data(self) -> None:
