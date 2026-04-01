@@ -27,7 +27,7 @@ async def async_check_location(
 ) -> bool:
     """Return true if location is ok."""
     session = aiohttp_client.async_get_clientsession(hass)
-    url = f"{WEATHER_BASE_URL}/geotype/point/lon/{longitude}/lat/{latitude}/data.json"
+    url = f"{WEATHER_BASE_URL}/geotype/point/lon/{round(longitude, 6)}/lat/{round(latitude, 6)}/data.json"
     try:
         async with session.get(url) as resp:
             return resp.status == 200

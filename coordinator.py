@@ -94,8 +94,8 @@ class SMHIDataUpdateCoordinator(DataUpdateCoordinator[SMHIForecastData]):
             name=DOMAIN,
             update_interval=DEFAULT_SCAN_INTERVAL,
         )
-        lon = config_entry.data[CONF_LOCATION][CONF_LONGITUDE]
-        lat = config_entry.data[CONF_LOCATION][CONF_LATITUDE]
+        lon = round(float(config_entry.data[CONF_LOCATION][CONF_LONGITUDE]), 6)
+        lat = round(float(config_entry.data[CONF_LOCATION][CONF_LATITUDE]), 6)
         self._url = (
             f"{WEATHER_BASE_URL}/geotype/point/lon/{lon}/lat/{lat}/data.json"
         )
@@ -134,8 +134,8 @@ class SMHIFireDataUpdateCoordinator(DataUpdateCoordinator[SMHIFireForecastData])
             name=DOMAIN,
             update_interval=DEFAULT_SCAN_INTERVAL,
         )
-        lon = config_entry.data[CONF_LOCATION][CONF_LONGITUDE]
-        lat = config_entry.data[CONF_LOCATION][CONF_LATITUDE]
+        lon = round(float(config_entry.data[CONF_LOCATION][CONF_LONGITUDE]), 6)
+        lat = round(float(config_entry.data[CONF_LOCATION][CONF_LATITUDE]), 6)
         base = f"{FIRE_BASE_URL}/{{freq}}/geotype/point/lon/{lon}/lat/{lat}/data.json"
         self._daily_url = base.format(freq="daily")
         self._hourly_url = base.format(freq="hourly")
